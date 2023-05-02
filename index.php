@@ -1,6 +1,14 @@
 <?php
 include("includes/config.php");
 ?>
+<?php
+
+//checks if post is created 
+if (isset($_SESSION['paymentcreated'])) {
+    $_SESSION['paymentcreated'] = "<h4 class='success'>Utgiften har registrerats!</h4>";
+}
+
+?>
 <!DOCTYPE html>
 <html lang="sv">
 
@@ -16,71 +24,155 @@ include("includes/config.php");
 <body>
     <header>
         <?php
-
-        if (isset($_SESSION['username'])) {
-            include("includes/nav_loggedin.php");
-        } else {
-            include("includes/nav.php");
-        }
-
+        include("includes/nav_loggedin.php");
         ?>
     </header>
     <main>
 
-        <div class="hero-wrapper">
-            <picture class="hero-image">
-                <source srcset="images/hero.jpg" media="(min-width: 1521px)">
-                <source srcset="images/test2.jpg" media="(min-width: 801px)">
-                <img src="images/test2.jpg" alt="bild på en person på ett fjäll" />
-            </picture>
-        </div>
+        <?php
 
-        <div class="wrapper">
+        //instans av klassen
+        $newpayment = new Newpayment();
 
-            <section class="box-one">
-                <p class="grid-box-one">flim &#x2022; blog.</p>
-                <h1 class="grid-box-one">Filmer. Serier. Dokumentärer. <br> Tips. Titta. Tipsa.</h1>
-                <ol class="grid-box-one" style="list-style-type:none;">
-                    <a style='font-size:1.4em !important;'>Profiler:</a>
-                    <?php
-                    $newpost = new Newpost();
+        if (isset($_POST['submit']))
 
-                    $blogs = $newpost->printUsers();
-                    
-                    foreach ($blogs as $users){
-                        echo "<li > <a class='link' style='text-decoration:underline;' href='user.php?username=" . $users['username'] .  "'>" . $users['username'] . "</a></li>";
-                    }
-                    ?>
-                </ol>
-            </section>
+            if ($newpayment->deleteAll()) {
+                //if true
+            }
+        ?>
 
+        <form method="POST" class="form-createpost">
+            <h1 class="title">Skapa betalning</h1>
+            <?php
 
-            <section>
+            // print all error messeges if success not true
+            if (isset($_SESSION['paymentcreated'])) {
+                echo $_SESSION['paymentcreated'];
+                unset($_SESSION['paymentcreated']);
+            }
 
-                <?php
+            // raderar ALLT
+            if (isset($_GET['deleteAll'])) {
 
-
-
-                $list = $newpost->printPostsAll();
-
-                foreach ($list as $index => $post) {
-                    echo "
-                <div class='box-posts'> 
-                    <img class='post-image' src='postsimages/" . $post['filename'] . "' alt='Bild " . $post['id'] . ", uppladdat av " . $post['username'] . "'>
-                    <h1 class='post-title'>" . $post['title'] . " <span class='post-span'>(" . $post['year'] . ")</span> </h1> 
-                    <p class='post-media'>" . $post['media'] . " &nbsp; &#x2022; &nbsp; " . $post['genre'] . " &nbsp; &#x2022; &nbsp; " . $post['grade'] . "/10 <img src='images/symbols/star.png' width='18px' height='18px' style='margin-bottom:0.3em;'> </p>
-                    <p class='post-username'>" . "<a class='link' style='color:white;text-decoration:underline; 'href='user.php?username=" . $post['username'] . "'>" . $post['username'] . "</a>" . "&nbsp; &#x2022; &nbsp; " . $post['created'] . "</p> 
-                    <p class='post-comment'>" . $post['comment'] . "</p> 
-                    <a class='post-btn read-btn' href='info.php?id=" . $post['id'] . "'>Läs mer</a>
-                </div>";
+                if ($newpayment->deleteAll()) {
                 }
-                ?>
+            }
+
+            //instans av klassen
+            $newpayment = new Newpayment();
+
+            if (isset($_POST['price']) && !empty($_POST['price'])) {
+
+                $name = $_POST['name'];
+                $price = (int)$_POST['price'];
+                $comment = $_POST['comment'];
+
+                if ($newpayment->addPayment($name, $price, $comment)) {
+                    //if true
+
+                }
+            }
 
 
-            </section>
+            ?>
+            <div class="select-div">
+                <div>
+                    <label for="name">Betalades av:</label>
+                    <select name="name" id="name">
+                        <option value="Lucas">Lucas</option>
+                        <option value="Kajsa">Kajsa</option>
+                    </select>
+                </div>
+            </div>
+            <label for="price">Utgift:</label><br>
+            <input class="input-form year" type="number" name="price" id="price"><br>
+            <label for="comment">Kommentar:</label><br>
+            <textarea class="input-form" name="comment" id="comment" rows="3" style="padding:0!important;"></textarea><br><br>
+            <button class="add-btn" type="submit"><a>Lägg till &nbsp;<i class="fa-solid fa-plus"></i></a></button><br><br>
+            <hr>
+            <?php
+
+            //instans av klassen
+            $newpayment = new Newpayment();
+
+            $list = $newpayment->printPayments();
+
+            // echo "<pre>";
+            // print_r(count($list));
+            // echo "</pre>";
+
+            if (count($list) == 1) {
+                if ($list['0']['name'] === "Kajsa") {
+                    $kajsa_sum = $list['0']['SUM(price)'];
+                    $lucas_sum = (int)0;
+                    $sum = $kajsa_sum - $lucas_sum;
+                    echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum/(int)2 . ":- </h1>";
+                } else {
+                    $kajsa_sum = (int)0;
+                    $lucas_sum = $list['0']['SUM(price)'];
+                    $sum = $lucas_sum - $kajsa_sum;
+                    echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum/(int)2 . ":- </h1>";
+                }
+            } else if (count($list) == 2) {
+                $kajsa_sum = $list['0']['SUM(price)'];
+                $lucas_sum = $list['1']['SUM(price)'];
+
+                if ($kajsa_sum > $lucas_sum) {
+
+                    $sum = $kajsa_sum - $lucas_sum;
+                    echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum/(int)2 . ":- </h1>";
+                } else if ($lucas_sum > $kajsa_sum) {
+                    $sum = $lucas_sum - $kajsa_sum;
+                    echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum/(int)2 . ":- </h1>";
+                } else {
+                    echo "<h4> Ni är kvitt!</h4>";
+                }
+            } else {
+                echo "<h4> Inga registrerade utgifter</h4>";
+            }
 
 
-        </div>
+            // if ((empty($list['0'])) && (!empty($list['1']))) {
+
+            //     $kajsa_sum = 0;
+            //     $lucas_sum = $list['1']['SUM(price)'];
+
+            //     $sum = $lucas_sum - $kajsa_sum;
+            //     echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum . ":- </h1>";
+            // } else if ((!empty($list['0'])) && (empty($list['1']))) {
+
+            //     $kajsa_sum = $list['0']['SUM(price)'];
+            //     $lucas_sum = 0;
+
+            //     $sum = $kajsa_sum - $lucas_sum;
+            //     echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum . ":- </h1>";
+            // } else if ((empty($list['0'])) && (empty($list['1']))) {
+
+            //     echo "<h4> Inga registrerade utgifter </h4>";
+            // } else if ((!empty($list['0'])) && (!empty($list['1']))) {
+
+            //     $kajsa_sum = $list['0']['SUM(price)'];
+            //     $lucas_sum = $list['1']['SUM(price)'];
+
+            //     if ($kajsa_sum > $lucas_sum) {
+
+            //         $sum = $kajsa_sum - $lucas_sum;
+            //         echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum . ":- </h1>";
+            //     } else if ($kajsa_sum < $lucas_sum) {
+            //         $sum = $lucas_sum - $kajsa_sum;
+            //         echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum . ":- </h1>";
+            //     } else {
+            //         echo "<h4> Ni är kvitt!</h4>";
+            //     }
+            // }
+
+            ?>
+
+        </form>
+
+        <form method="POST" class="form-createpost">
+            <button class="bomb-btn" type="submit" value="Submit" name="submit"><a><i class="fa-solid fa-bomb"></i></a></button><br><br>
+        </form>
     </main>
 
     <footer>

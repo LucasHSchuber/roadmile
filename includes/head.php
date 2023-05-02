@@ -7,9 +7,7 @@
 <link rel="stylesheet" href="css/style.css">
 
 <!-- Javascript -->
-
 <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
-
 
 <!-- font aweomse -->
 <script src="https://kit.fontawesome.com/c62fde443a.js" crossorigin="anonymous"></script>

@@ -23,10 +23,10 @@ if ($devmode) { // om $devmode = true;
 
     //databasinställningar
 
-    define("DBHOST", "studentmysql.miun.se");
-    define("DBUSER", "luha2200");
-    define("DBPASSWORD", "jordenrunt");
-    define("DBDATABASE", "blogsdb");
+    define("DBHOST", "localhost");
+    define("DBUSER", "root");
+    define("DBPASSWORD", "root");
+    define("DBDATABASE", "paymentsdb");
 
     
 } else{
