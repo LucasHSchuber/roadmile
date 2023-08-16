@@ -26,4 +26,4 @@
 <link rel="apple-touch-icon" href="images/k_apple_logo2.png">
 
 <!--favicon -->
-<link rel="icon" type="image/x-icon" href="images/kappa.png"/>
+<link rel="icon" type="image/x-icon" href="images/k_apple_logo.png"/>
