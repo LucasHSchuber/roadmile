@@ -12,7 +12,8 @@ class Newpayment
     //constructor
     function __construct()
     {
-        $this->db = new mysqli('localhost', 'root', 'root', 'paymentsdb');
+        // $this->db = new mysqli('localhost', 'root', 'root', 'paymentsdb');
+        $this->db = new mysqli('studentmysql.miun.se', 'luha2200', 'jordenrunt', 'luha2200');
         if ($this->db->connect_errno > 0) {
             die('fel vid anslutning till databasen: ' . $this->db->connect_error);
         }
