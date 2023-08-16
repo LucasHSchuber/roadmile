@@ -39,19 +39,21 @@ picture img {
 /* table */
 table {
     font-family: arial, sans-serif;
-    width: 100% ;
-  }
-  
-  td, th {
+    width: 100%;
+}
+
+td,
+th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-  }
-  
-  tr:nth-child(even) {
+}
+
+tr:nth-child(even) {
     background-color: #dddddd;
-  }
-.fa-minus{
+}
+
+.fa-minus {
     color: red;
 }
 
@@ -82,7 +84,7 @@ table {
     /* text-shadow: 1px 1px 10px #e7b100, 1px 1px 4px #e7b100; */
     font-size: 2.5em;
     font-weight: 100;
-    font-family: 'Dancing Script', cursive; 
+    font-family: 'Dancing Script', cursive;
 }
 
 .topnav a {
@@ -276,6 +278,7 @@ table {
     border-radius: 2px;
     box-shadow: none;
 }
+
 .bomb-btn {
     background-color: #d0d0d0;
     border: 2px solid transparent;
@@ -299,6 +302,7 @@ table {
     border-radius: 2px;
     box-shadow: none;
 }
+
 .del-btn {
     background-color: #ff6767;
     border: 2px solid transparent;
@@ -387,7 +391,7 @@ table {
         padding: 5em 6em 5em 6em;
     }
 
-    table{
+    table {
         width: 85%;
         margin: 0 auto;
     }

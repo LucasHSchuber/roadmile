@@ -106,12 +106,12 @@ if (isset($_SESSION['paymentcreated'])) {
                     $kajsa_sum = $list['0']['SUM(price)'];
                     $lucas_sum = (int)0;
                     $sum = $kajsa_sum - $lucas_sum;
-                    echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum/(int)2 . ":- </h1>";
+                    echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum / (int)2 . ":- </h1>";
                 } else {
                     $kajsa_sum = (int)0;
                     $lucas_sum = $list['0']['SUM(price)'];
                     $sum = $lucas_sum - $kajsa_sum;
-                    echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum/(int)2 . ":- </h1>";
+                    echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum / (int)2 . ":- </h1>";
                 }
             } else if (count($list) == 2) {
                 $kajsa_sum = $list['0']['SUM(price)'];
@@ -120,10 +120,10 @@ if (isset($_SESSION['paymentcreated'])) {
                 if ($kajsa_sum > $lucas_sum) {
 
                     $sum = $kajsa_sum - $lucas_sum;
-                    echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum/(int)2 . ":- </h1>";
+                    echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum / (int)2 . ":- </h1>";
                 } else if ($lucas_sum > $kajsa_sum) {
                     $sum = $lucas_sum - $kajsa_sum;
-                    echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum/(int)2 . ":- </h1>";
+                    echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum / (int)2 . ":- </h1>";
                 } else {
                     echo "<h4> Ni är kvitt!</h4>";
                 }
