@@ -1,1 +1,1 @@
-"Ett kul litet projekt som returnerar min och min tjejs utgifter för att sedan kalkylera vem som är skyldig vem hur mycket."
+"Ett kul litet projekt för jobbet som registrerar antal mil jag kört i jobbet och hur mycket det ger mig i kr"

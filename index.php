@@ -4,8 +4,8 @@ include("includes/config.php");
 <?php
 
 //checks if post is created 
-if (isset($_SESSION['paymentcreated'])) {
-    $_SESSION['paymentcreated'] = "<h4 class='success'>Utgiften har registrerats!</h4>";
+if (isset($_SESSION['routecreated'])) {
+    $_SESSION['routecreated'] = "<h4 class='success'>The route has been registred!</h4>";
 }
 
 ?>
@@ -32,42 +32,43 @@ if (isset($_SESSION['paymentcreated'])) {
         <?php
 
         //instans av klassen
-        $newpayment = new Newpayment();
+        $newroute = new Newroute();
 
         if (isset($_POST['submit']))
 
-            if ($newpayment->deleteAll()) {
+            if ($newroute->deleteAll()) {
                 //if true
             }
         ?>
 
         <form method="POST" class="form-createpost">
-            <h1 class="title">Skapa betalning</h1>
+            <h1 class="title">Add route</h1>
             <?php
 
             // print all error messeges if success not true
-            if (isset($_SESSION['paymentcreated'])) {
-                echo $_SESSION['paymentcreated'];
-                unset($_SESSION['paymentcreated']);
+            if (isset($_SESSION['routecreated'])) {
+                echo $_SESSION['routecreated'];
+                unset($_SESSION['routecreated']);
             }
 
             // raderar ALLT
             if (isset($_GET['deleteAll'])) {
 
-                if ($newpayment->deleteAll()) {
+                if ($newroute->deleteAll()) {
                 }
             }
 
             //instans av klassen
-            $newpayment = new Newpayment();
+            $newroute = new Newroute();
 
-            if (isset($_POST['price']) && !empty($_POST['price'])) {
+            if (isset($_POST['location']) && !empty($_POST['kilometers']) && !empty($_POST['date'])) {
 
-                $name = $_POST['name'];
-                $price = (int)$_POST['price'];
-                $comment = $_POST['comment'];
+                $location = $_POST['location'];
+                $kilometers = (int)$_POST['kilometers'];
+                $parking = $_POST['parking'];
+                $date = $_POST['date'];
 
-                if ($newpayment->addPayment($name, $price, $comment)) {
+                if ($newroute->addRoute($location, $kilometers, $parking, $date)) {
                     //if true
 
                 }
@@ -75,104 +76,41 @@ if (isset($_SESSION['paymentcreated'])) {
 
 
             ?>
-            <div class="select-div">
-                <div>
-                    <label for="name">Betalades av:</label>
-                    <select name="name" id="name">
-                        <option value="Lucas">Lucas</option>
-                        <option value="Kajsa">Kajsa</option>
-                    </select>
-                </div>
-            </div>
-            <label for="price">Utgift:</label><br>
-            <input class="input-form year" type="number" name="price" id="price"><br>
-            <label for="comment">Kommentar:</label><br>
-            <textarea class="input-form" name="comment" id="comment" rows="3" style="padding:0!important;"></textarea><br><br>
-            <button class="add-btn" type="submit"><a>Lägg till &nbsp;<i class="fa-solid fa-plus"></i></a></button><br><br>
+
+            <label for="location">Location (inc return):</label><br>
+            <input class="input-form year" type="text" name="location" id="location"><br>
+            <label for="kilometers">Kilometers driven (inc return):</label><br>
+            <input class="input-form year" type="number" name="kilometers" id="kilometers" min="0" value="0" step=".1"><br>
+            <label for="parking">Parking:</label><br>
+            <input class="input-form year" type="number" name="parking" id="parking" min="0" value="0" step=".1"><br>
+            <label for="date">Date:</label><br>
+            <input class="input-form year" type="date" name="date" id="date"><br>
+            <button class="add-btn" type="submit"><a>Add route &nbsp;<i class="fa-solid fa-plus"></i></a></button><br><br>
             <hr>
+
             <?php
 
             //instans av klassen
-            $newpayment = new Newpayment();
+            $newroute = new Newroute();
 
-            $list = $newpayment->printPayments();
+            $km = $newroute->printKilometers();
+            $park = $newroute->printParking();
 
-            // echo "<pre>";
-            // print_r(count($list));
-            // echo "</pre>";
+            $sumkilometers =  $km['0']['SUM(kilometers)'] * 1;
+            $cash =  $km['0']['SUM(kilometers)'] * 2.5;
+            $parking =  $park['0']['SUM(parking)'];
 
-            if (count($list) == 1) {
-                if ($list['0']['name'] === "Kajsa") {
-                    $kajsa_sum = $list['0']['SUM(price)'];
-                    $lucas_sum = (int)0;
-                    $sum = $kajsa_sum - $lucas_sum;
-                    echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum / (int)2 . ":- </h1>";
-                } else {
-                    $kajsa_sum = (int)0;
-                    $lucas_sum = $list['0']['SUM(price)'];
-                    $sum = $lucas_sum - $kajsa_sum;
-                    echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum / (int)2 . ":- </h1>";
-                }
-            } else if (count($list) == 2) {
-                $kajsa_sum = $list['0']['SUM(price)'];
-                $lucas_sum = $list['1']['SUM(price)'];
+            echo "<h4> Kilometers driven: </h4>" .  "<h1>" . $sumkilometers . " km </h1>";
 
-                if ($kajsa_sum > $lucas_sum) {
+            echo "<h4> Gas compensation: </h4>" .  "<h1>" . $cash . " kr </h1>";
 
-                    $sum = $kajsa_sum - $lucas_sum;
-                    echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum / (int)2 . ":- </h1>";
-                } else if ($lucas_sum > $kajsa_sum) {
-                    $sum = $lucas_sum - $kajsa_sum;
-                    echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum / (int)2 . ":- </h1>";
-                } else {
-                    echo "<h4> Ni är kvitt!</h4>";
-                }
-            } else {
-                echo "<h4> Inga registrerade utgifter</h4>";
-            }
-
-
-            // if ((empty($list['0'])) && (!empty($list['1']))) {
-
-            //     $kajsa_sum = 0;
-            //     $lucas_sum = $list['1']['SUM(price)'];
-
-            //     $sum = $lucas_sum - $kajsa_sum;
-            //     echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum . ":- </h1>";
-            // } else if ((!empty($list['0'])) && (empty($list['1']))) {
-
-            //     $kajsa_sum = $list['0']['SUM(price)'];
-            //     $lucas_sum = 0;
-
-            //     $sum = $kajsa_sum - $lucas_sum;
-            //     echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum . ":- </h1>";
-            // } else if ((empty($list['0'])) && (empty($list['1']))) {
-
-            //     echo "<h4> Inga registrerade utgifter </h4>";
-            // } else if ((!empty($list['0'])) && (!empty($list['1']))) {
-
-            //     $kajsa_sum = $list['0']['SUM(price)'];
-            //     $lucas_sum = $list['1']['SUM(price)'];
-
-            //     if ($kajsa_sum > $lucas_sum) {
-
-            //         $sum = $kajsa_sum - $lucas_sum;
-            //         echo "<h4> Lucas är skyldig: </h4>" . "<h1>" . $sum . ":- </h1>";
-            //     } else if ($kajsa_sum < $lucas_sum) {
-            //         $sum = $lucas_sum - $kajsa_sum;
-            //         echo "<h4> Kajsa är skyldig: </h4>" . "<h1>" . $sum . ":- </h1>";
-            //     } else {
-            //         echo "<h4> Ni är kvitt!</h4>";
-            //     }
-            // }
+            echo "<h4> Parking total: </h4>" .  "<h1>" . $parking . " kr </h1>";
 
             ?>
 
         </form>
 
-        <form method="POST" class="form-createpost">
-            <button class="bomb-btn" type="submit" value="Submit" name="submit"><a><i class="fa-solid fa-bomb"></i></a></button><br><br>
-        </form>
+
     </main>
 
     <footer>

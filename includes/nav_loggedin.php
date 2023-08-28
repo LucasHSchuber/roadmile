@@ -1,12 +1,9 @@
-<div class="topnav container">
+<div class="topnav">
     <div class="logo">
-        <a>Kajcas</a>
+        <a class="logo" href="index.php">Roadmile</a>
     </div>
     <div class="left-menu" id="myTopnav">
-        <a href="index.php">Startsida</a>
-        <a href="utgifter.php">Utgifter</a>
-    </div>
-    <div class="right-menu">
-
+        <a href="index.php">Start</a>
+        <a href="routes.php">Routes</a>
     </div>
 </div>

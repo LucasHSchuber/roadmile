@@ -1,7 +1,7 @@
 body {
     background-color: #f7f7f7;
     margin: 0;
-    font-family: 'Noto Serif JP', serif !important;
+    font-family: 'Gothic A1', sans-serif !important;
     /* font-family: 'Nunito Sans', sans-serif;
     font-family: 'Roboto', sans-serif; */
 }
@@ -66,13 +66,14 @@ tr:nth-child(even) {
 
 .topnav {
     display: grid;
-    grid-template-columns: 10% 80% 10%;
-    padding: 4em 0 1em 0;
+    grid-template-columns: 30% 80%;
+    /* padding: 4em 0 1em 0; */
+    max-width: 75em;
+    padding: 1.5em 1em;
 }
 
-.left-menu,
-.right-menu {
-    padding-top: 1.6em;
+.left-menu{
+    padding-top: 2.5em;
 }
 
 .left-menu {
@@ -80,17 +81,18 @@ tr:nth-child(even) {
 }
 
 .logo {
-    color: #e7b100;
+    color: #415696 !important;
     /* text-shadow: 1px 1px 10px #e7b100, 1px 1px 4px #e7b100; */
     font-size: 2.5em;
     font-weight: 100;
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Lobster', cursive;
 }
 
 .topnav a {
     color: rgb(35, 35, 35);
-    font-size: 1.2em;
+    font-size: 1.5em;
     padding: 1em;
+    font-weight: 700;
 }
 
 .topnav a:hover {
@@ -223,7 +225,7 @@ tr:nth-child(even) {
 }
 
 .success {
-    color: #e7b100 !important;
+    color: #415696 !important;
 }
 
 
@@ -255,9 +257,9 @@ tr:nth-child(even) {
 }
 
 .add-btn {
-    background-color: #e7b100;
+    background-color: #415696;
     border: 2px solid transparent;
-    color: rgb(35, 35, 35);
+    color: rgb(255, 255, 255);
     font-size: 1.6em;
     font-weight: 500;
     padding: 0.3em 2em;
@@ -265,6 +267,7 @@ tr:nth-child(even) {
     box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.2);
     width: 15em;
     height: 3em;
+    margin-top: 1em;
 }
 
 .add-btn:focus {
@@ -273,7 +276,7 @@ tr:nth-child(even) {
 
 .add-btn:hover {
     transition: 0.5s ease;
-    background-color: #f8c10e;
+    background-color: #415696;
     /* border: 2px solid black; */
     border-radius: 2px;
     box-shadow: none;
