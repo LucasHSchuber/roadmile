@@ -66,9 +66,10 @@ if (isset($_SESSION['routecreated'])) {
                 $location = $_POST['location'];
                 $kilometers = (int)$_POST['kilometers'];
                 $parking = $_POST['parking'];
+                $toll = $_POST['toll'];
                 $date = $_POST['date'];
 
-                if ($newroute->addRoute($location, $kilometers, $parking, $date)) {
+                if ($newroute->addRoute($location, $kilometers, $parking, $toll, $date)) {
                     //if true
 
                 }
@@ -83,6 +84,8 @@ if (isset($_SESSION['routecreated'])) {
             <input class="input-form year" type="number" name="kilometers" id="kilometers" min="0" value="0" step=".1"><br>
             <label for="parking">Parking:</label><br>
             <input class="input-form year" type="number" name="parking" id="parking" min="0" value="0" step=".1"><br>
+            <label for="toll">Toll:</label><br>
+            <input class="input-form year" type="number" name="toll" id="toll" min="0" value="0" step="1"><br>
             <label for="date">Date:</label><br>
             <input class="input-form year" type="date" name="date" id="date"><br>
             <button class="add-btn" type="submit"><a>Add route &nbsp;<i class="fa-solid fa-plus"></i></a></button><br><br>
@@ -95,16 +98,20 @@ if (isset($_SESSION['routecreated'])) {
 
             $km = $newroute->printKilometers();
             $park = $newroute->printParking();
+            $toll = $newroute->printToll();
 
             $sumkilometers =  $km['0']['SUM(kilometers)'] * 1;
             $cash =  $km['0']['SUM(kilometers)'] * 2.5;
             $parking =  $park['0']['SUM(parking)'];
+            $tolls =  $toll['0']['SUM(toll)'];
 
             echo "<h4> Kilometers driven: </h4>" .  "<h1>" . $sumkilometers . " km </h1>";
 
             echo "<h4> Gas compensation: </h4>" .  "<h1>" . $cash . " kr </h1>";
 
             echo "<h4> Parking total: </h4>" .  "<h1>" . $parking . " kr </h1>";
+            
+            echo "<h4> Toll total: </h4>" .  "<h1>" . $tolls . " kr </h1>";
 
             ?>
 

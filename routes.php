@@ -40,11 +40,11 @@ include("includes/config.php");
 
         <table class="form-createpost">
             <tr>
-                <th>Nr:</th>
+                <th>Date:</th>
                 <th>Location:</th>
                 <th>Kilometers:</th>
-                <th>parking:</th>
-                <th>Date:</th>
+                <th>Parking:</th>
+                <th>Toll:</th>
                 <th>Delete:</th>
             </tr>
 
@@ -58,11 +58,11 @@ include("includes/config.php");
             foreach ($list as $route) {
                 echo "
                     <tr>
-                        <td>" . $route['id'] . "</td>
+                        <td>" . $route['datetime'] . "</td>
                         <td>" . $route['location'] . "</td>
                         <td>" . $route['kilometers'] . "</td>
                         <td>" . $route['parking'] . "</td>
-                        <td>" . $route['datetime'] . "</td>
+                        <td>" . $route['toll'] . "</td>
                         <td> <a href='routes.php?delete=" . $route['id'] . "'> <i class='fa-solid fa-minus'></i></a> </td>
                     </tr>
                 ";
@@ -71,6 +71,26 @@ include("includes/config.php");
 
         </table>
 
+        <!-- <form method="POST" class="form-createpost">
+            <button class="" type="submit" value="Submit" name="sendmail"><a>Send</a></button><br><br>
+        </form> -->
+
+        <?php
+
+        // if (isset($_POST['sendmail'])) {
+        //     $to      = 'lucas.hammarstrand@hotmail.com';
+        //     $subject = 'Mil och Parkering - HT23';
+        //     $message = 'hello';
+        //     $headers = 'From: lucas.hammarstrand@hotmail.com' . "\r\n" .
+        //         'X-Mailer: PHP/' . phpversion();
+
+        //     mail($to, $subject, $message, $headers);
+
+        //     echo 'Email Sent.';
+        // }
+
+        ?>
+
     </main>
 
     <footer>
@@ -78,6 +98,7 @@ include("includes/config.php");
         include("includes/footer.php");
         ?>
     </footer>
+
 </body>
 
 </html>
